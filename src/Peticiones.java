@@ -1,5 +1,6 @@
 import com.google.gson.Gson;
 
+import java.math.BigDecimal;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
@@ -21,14 +22,14 @@ public class Peticiones {
         return realizaPeticion(request);
     }
 
-    public JsonDto realizaPeticion(HttpRequest request){
+    private JsonDto realizaPeticion(HttpRequest request){
         Gson gson = new Gson();
         try{
             HttpResponse<String> response = CLIENT.send(request,HttpResponse.BodyHandlers.ofString());
             return gson.fromJson(response.body(),JsonDto.class);
         }catch (Exception e){
-            System.out.println("Ocurrio un error al realizar la peticion");
+            System.out.println(e.getMessage());
         }
-        return new JsonDto("","","",0);
+        return new JsonDto("","", BigDecimal.ZERO);
     }
 }
